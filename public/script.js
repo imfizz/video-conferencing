@@ -1,4 +1,5 @@
 const socket = io('/') // root path
+
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, {
     host: '/',
@@ -15,7 +16,7 @@ navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true
 }).then(stream => {
-    addVideoStream(video, stream)
+    addVideoStream(myVideo, stream)
 
     myPeer.on('call', call => {
         call.answer(stream) // pag may cumonnect sasagutin natin, so mag aappear satin yung new video from user
@@ -60,7 +61,7 @@ function connectedToNewUser(userId, stream){
 function addVideoStream(video, stream){
     video.srcObject = stream
     // pag nagload na yung stream play na yung video
-    video.addEventListener('loadmetadata', () => {
+    video.addEventListener('loadedmetadata', () => {
         video.play()
     })
     videoGrid.append(video)
